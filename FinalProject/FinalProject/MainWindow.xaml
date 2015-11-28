@@ -1,0 +1,39 @@
+﻿<Window x:Class="NutritionalInfoApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Nutritional Info App" Height="415" Width="650" Icon="Images/heart-beat-icon.png">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Left" Margin="10">
+                <Label DockPanel.Dock="Top" Content="Ink Stroke Input:"/>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <InkCanvas Name="AppInkCanvas" Background="#FFECEDB3"></InkCanvas>
+                    <Button Name="ClearButton"  Grid.Row="1" Content="Clear Ink" Width="75" Margin="0,5" HorizontalAlignment="Left" Click="ClearButton_OnClick"/>
+                </Grid>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Right" Margin="10">
+                <Label DockPanel.Dock="Top" Content="Search Result:"/>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ListView DockPanel.Dock="Left"/>
+                    <Image Grid.Column="1" DockPanel.Dock="Right"></Image>
+                </Grid>
+            </DockPanel>
+        </DockPanel>
+        <DockPanel Grid.Row="1">
+            <Label DockPanel.Dock="Top" Content="Search Text:" Margin="5,0"/>
+            <TextBox Name="SearchText" DockPanel.Dock="Bottom" Margin="10,0,10,10"></TextBox>
+        </DockPanel>
+    </Grid>
+</Window>
