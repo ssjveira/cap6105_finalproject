@@ -22,18 +22,23 @@
             <DockPanel DockPanel.Dock="Right" Margin="10">
                 <Label DockPanel.Dock="Top" Content="Search Result:"/>
                 <Grid DockPanel.Dock="Bottom">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <ListView DockPanel.Dock="Left"/>
-                    <Image Grid.Column="1" DockPanel.Dock="Right"></Image>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListView/>
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Right">
+                     <Hyperlink Name="NutritionixHyperlink" Click="NutritionixHyperlink_OnClick" Foreground="{x:Null}">
+                      <Image Name="NutritionixImage" Source="Images/nutritionixIcon.bmp" MaxWidth="126.4" MaxHeight="29.6" />
+                     </Hyperlink>
+                    </TextBlock>
                 </Grid>
             </DockPanel>
         </DockPanel>
-        <DockPanel Grid.Row="1">
-            <Label DockPanel.Dock="Top" Content="Search Text:" Margin="5,0"/>
-            <TextBox Name="SearchText" DockPanel.Dock="Bottom" Margin="10,0,10,10"></TextBox>
-        </DockPanel>
+        <StackPanel Grid.Row="1">
+            <Label Content="Nutritionix Debug Search" Margin="10,10,10,0"/>
+            <TextBox Name="SearchText" DockPanel.Dock="Bottom" Margin="10,0,10,1"/>
+            <Button Name="SearchButton" Content="Search" Width="75" Margin="10,1,10,10" HorizontalAlignment="Left" Click="SearchButton_OnClick"/>
+        </StackPanel>
     </Grid>
 </Window>

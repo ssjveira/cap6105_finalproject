@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NutritionalInfoApp.Properties {
+namespace NutritionixSamples.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -20,6 +20,24 @@ namespace NutritionalInfoApp.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("b01ec7f8")]
+        public string nutritionixAppId {
+            get {
+                return ((string)(this["nutritionixAppId"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("f3ee823b1ad91a19fc0d226915ed2fa1")]
+        public string nutritionixAppKey {
+            get {
+                return ((string)(this["nutritionixAppKey"]));
             }
         }
     }
