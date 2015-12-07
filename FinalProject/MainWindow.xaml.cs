@@ -61,5 +61,11 @@ namespace NutritionalInfoApp
         {
             NutritionHelper.Search(SearchText.Text);
         }
+
+        private void AppInkCanvas_OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
+        {
+            InkConversionUtils.SaveStrokesAsImage(AppInkCanvas.Strokes,
+                System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
+        }
     }
 }

@@ -15,7 +15,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <InkCanvas Name="AppInkCanvas" Background="#FFECEDB3"></InkCanvas>
+                    <InkCanvas Name="AppInkCanvas" Background="#FFECEDB3" StrokeCollected="AppInkCanvas_OnStrokeCollected"></InkCanvas>
                     <Button Name="ClearButton"  Grid.Row="1" Content="Clear Ink" Width="75" Margin="0,5" HorizontalAlignment="Left" Click="ClearButton_OnClick"/>
                 </Grid>
             </DockPanel>
