@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -106,6 +101,7 @@ namespace NutritionalInfoApp.Utils
         /// Saves the collection of ink strokes as a PNG bitmap.
         /// </summary>
         /// <param name="strokes"></param>
+        /// <param name="imageSideLength"></param>
         /// <param name="filename"></param>
         /// <exception cref="ArgumentException">Thrown when the file extension is not one of the supported types (.gif, .png, .jpg)</exception>
         public static void SaveStrokesAsImage(StrokeCollection strokes, double imageSideLength, string filename)
