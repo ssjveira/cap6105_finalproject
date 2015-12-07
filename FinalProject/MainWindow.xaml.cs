@@ -26,6 +26,9 @@ namespace NutritionalInfoApp
         public MainWindow()
         {
             InitializeComponent();
+
+            // Use bezier smoothing when rendering the ink strokes
+            AppInkCanvas.DefaultDrawingAttributes.FitToCurve = true;
         }
 
         private void ClearButton_OnClick(object sender, RoutedEventArgs e)
@@ -64,7 +67,7 @@ namespace NutritionalInfoApp
 
         private void AppInkCanvas_OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
-            InkConversionUtils.SaveStrokesAsImage(AppInkCanvas.Strokes, 1111.0,
+            InkConversionUtils.SaveStrokesToImageFile(AppInkCanvas.Strokes, 1111.0,
                 System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
         }
     }
