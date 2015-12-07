@@ -64,7 +64,7 @@ namespace NutritionalInfoApp
 
         private void AppInkCanvas_OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
-            InkConversionUtils.SaveStrokesAsImage(AppInkCanvas.Strokes,
+            InkConversionUtils.SaveStrokesAsImage(AppInkCanvas.Strokes, 1111.0,
                 System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
         }
     }
