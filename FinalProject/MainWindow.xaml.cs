@@ -23,6 +23,9 @@ namespace NutritionalInfoApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly string INFO_DATA_STR = "See info";
+        private readonly string BACK_STR = "Back to results";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -62,13 +65,27 @@ namespace NutritionalInfoApp
 
         private void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
-            NutritionHelper.Search(SearchText.Text);
+            var searchResponse = NutritionHelper.Search(SearchText.Text);
+            ResultListView.ItemsSource = searchResponse.Results;
         }
 
         private void AppInkCanvas_OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
             InkConversionUtils.SaveStrokesToImageFile(AppInkCanvas.Strokes, 1111.0,
                 System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
+        }
+
+        private void ResultListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ResultListView.SelectedItem != null)
+            {
+                ResultButton.Content = INFO_DATA_STR;
+                ResultButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ResultButton.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

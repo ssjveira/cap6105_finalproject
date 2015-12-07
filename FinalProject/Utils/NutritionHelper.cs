@@ -24,22 +24,20 @@ namespace NutritionalInfoApp.Utils
         /// </summary>
         /// <param name="query"></param>
         /// <param name="itemType"></param>
-        public static void Search(string query)
+        public static SearchResponse Search(string query)
         {
+            if(query.Equals(""))
+                return new SearchResponse();
+
+            Console.WriteLine(@"Performing search on Nutritionix database for '" + query + @"'...");
+
             var nutritionix = new NutritionixClient();
             nutritionix.Initialize(AppId, AppKey);
 
             var request = new SearchRequest { Query = query };
-            Console.WriteLine(@"Searching Nutritionix for '" + query + @"'...");
-            var response = nutritionix.SearchItems(request);
-
-            Console.WriteLine(@"Displaying results 1 - {0} of {1}", response.Results.Length, response.TotalResults);
-            foreach (var result in response.Results)
-            {
-                Console.WriteLine(@"* {0}", result.Item.Name);
-            }
-
-            Console.WriteLine();
+            
+            // Return the search response
+            return nutritionix.SearchItems(request);
         }
 
     }

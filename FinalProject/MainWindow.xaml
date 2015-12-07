@@ -9,7 +9,7 @@
         </Grid.RowDefinitions>
         <DockPanel>
             <DockPanel DockPanel.Dock="Left" Margin="10">
-                <Label DockPanel.Dock="Top" Content="Ink Stroke Input:"/>
+                <Label DockPanel.Dock="Top" Content="Draw food here:"/>
                 <Grid DockPanel.Dock="Bottom">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -26,8 +26,19 @@
                         <RowDefinition/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <ListView/>
-                    <TextBlock Grid.Row="1" HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ListView Name="ResultListView" Grid.ColumnSpan="2" SelectionChanged="ResultListView_OnSelectionChanged" SelectionMode="Single">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Food" DisplayMemberBinding="{Binding Item.Name}"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                     </ListView>
+                    <Button Name="ResultButton" Grid.Row="1" Grid.Column="0" Width="75" Margin="0,5" HorizontalAlignment="Left" Content="Back" Visibility="Collapsed"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
                      <Hyperlink Name="NutritionixHyperlink" Click="NutritionixHyperlink_OnClick" Foreground="{x:Null}">
                       <Image Name="NutritionixImage" Source="Images/nutritionixIcon.bmp" MaxWidth="126.4" MaxHeight="29.6" />
                      </Hyperlink>
