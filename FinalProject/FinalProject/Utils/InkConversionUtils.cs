@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xml;
 using Matrix = System.Windows.Media.Matrix;
 
 namespace NutritionalInfoApp.Utils
@@ -20,6 +25,9 @@ namespace NutritionalInfoApp.Utils
             Png,
             Jpg
         }
+
+
+
 
         private static void ScaleStrokes(StrokeCollection strokes, double imageSideLength)
         {
@@ -188,5 +196,74 @@ namespace NutritionalInfoApp.Utils
 
             bitmap.Save(filename);
         }
+
+
+        public static bool SaveFeatures(string feature, List<double> weights)
+        {
+
+            string name = feature;
+
+            bool success = true;
+            XmlTextWriter writer = null;
+            try
+            {
+                writer = new XmlTextWriter(name, Encoding.UTF8);
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("Features");
+                    int i = 0;
+                    writer.WriteStartElement("test");
+                    foreach (double pix in weights)
+                    {
+                        writer.WriteAttributeString("F" + i.ToString(), XmlConvert.ToString(pix));
+                        i++;
+                    }
+                    writer.WriteEndElement(); // <Point />
+                writer.WriteEndElement();              
+            }
+            catch (XmlException xex)
+            {
+                Console.WriteLine(xex.Message);
+                Console.Write(xex.StackTrace);
+                Console.WriteLine();
+                success = false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.Write(ex.StackTrace);
+                Console.WriteLine();
+                success = false;
+            }
+            finally
+            {
+                if (writer != null)
+                    writer.Close();
+            }
+            return success; // Xml file successfully written (or not)
+        }
+
+        public static List<double> featurizedBitmap(Bitmap bitmap)
+        {
+            List<double> imgDT1 = new List<double>();
+            double ftr = 0;
+            for (int n = 0; n < 1111; n += 101)
+            {
+                for (int m = 0; m < 1111; m += 101)
+                {
+                    for (int i = n; i < n + 101; i++)
+                    {
+                        for (int j = m; j < m + 101; j++)
+                        {
+                            ftr += bitmap.GetPixel(i, j).R;
+                        }
+                    }
+                    imgDT1.Add(ftr);
+                    ftr = 0;
+                }
+            }
+            return imgDT1;
+        }
+
     }
 }

@@ -66,6 +66,11 @@ namespace NutritionalInfoApp
         {
             InkConversionUtils.SaveStrokesToImageFile(AppInkCanvas.Strokes, 1111.0,
                 System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
+            var bitmap = InkConversionUtils.StrokesToBitmap(AppInkCanvas.Strokes, 1111.0);
+            var testFeatures = InkConversionUtils.featurizedBitmap(bitmap);
+            InkConversionUtils.SaveFeatures(System.IO.Directory.GetCurrentDirectory() + @"\testFeature.xml", testFeatures);
+           // RecognitionUtils.ReadFeatures();
+              SearchText.Text = RecognitionUtils.searchResult(testFeatures);
         }
 
         private void ResultListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
