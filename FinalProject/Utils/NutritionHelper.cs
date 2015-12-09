@@ -40,5 +40,15 @@ namespace NutritionalInfoApp.Utils
             return nutritionix.SearchItems(request);
         }
 
+        public static Item RetrieveItem(string id)
+        {
+            var nutritionix = new NutritionixClient();
+            nutritionix.Initialize(AppId, AppKey);
+
+            Console.WriteLine(@"Retrieving item data from Nutritionix database with id " + id);
+            
+            return nutritionix.RetrieveItem(id);
+        }
+
     }
 }
