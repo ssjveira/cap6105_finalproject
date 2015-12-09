@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using NutritionalInfoApp.Utils;
 using Nutritionix;
 
@@ -23,8 +14,8 @@ namespace NutritionalInfoApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly string INFO_DATA_STR = "See info";
-        private readonly string BACK_STR = "Back to results";
+        private readonly string m_InfoDataStr = "See info";
+        private readonly string m_BackStr = "Back to results";
 
         public MainWindow()
         {
@@ -32,6 +23,8 @@ namespace NutritionalInfoApp
 
             // Use bezier smoothing when rendering the ink strokes
             AppInkCanvas.DefaultDrawingAttributes.FitToCurve = true;
+
+            ResultButton.Content = m_InfoDataStr;
         }
 
         private void ClearButton_OnClick(object sender, RoutedEventArgs e)
@@ -77,14 +70,41 @@ namespace NutritionalInfoApp
 
         private void ResultListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var nutritionalInfo = new List<string>();
+
             if (ResultListView.SelectedItem != null)
             {
-                ResultButton.Content = INFO_DATA_STR;
-                ResultButton.Visibility = Visibility.Visible;
+                foreach (var item in e.AddedItems)
+                {
+                    var searchResult = item as SearchResult;
+
+                    if (searchResult != null)
+                    {
+                        var resultItem = NutritionHelper.RetrieveItem(searchResult.Item.Id);
+                        nutritionalInfo.Add("Calcium: " + (resultItem.NutritionFact_Calcium != null ? resultItem.NutritionFact_Calcium.ToString() : ""));
+                        nutritionalInfo.Add("Calories: " + (resultItem.NutritionFact_Calories != null ? resultItem.NutritionFact_Calories.ToString() : ""));
+                    }
+                }
+            }
+
+            NutrionalListView.ItemsSource = nutritionalInfo;
+        }
+
+        private void ResultButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (ResultButton.Content.Equals(m_InfoDataStr))
+            {
+                ResultButton.Content = m_BackStr;
+
+                ResultListView.Visibility = Visibility.Hidden;
+                NutrionalListView.Visibility = Visibility.Visible;
             }
             else
             {
-                ResultButton.Visibility = Visibility.Collapsed;
+                ResultButton.Content = m_InfoDataStr;
+
+                ResultListView.Visibility = Visibility.Visible;
+                NutrionalListView.Visibility = Visibility.Hidden;
             }
         }
     }

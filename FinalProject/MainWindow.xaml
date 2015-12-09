@@ -37,7 +37,10 @@
                             </GridView>
                         </ListView.View>
                      </ListView>
-                    <Button Name="ResultButton" Grid.Row="1" Grid.Column="0" Width="75" Margin="0,5" HorizontalAlignment="Left" Content="Back" Visibility="Collapsed"/>
+                    <ListView Name="NutrionalListView"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Visibility="Hidden" SelectionMode="Single">
+                        
+                    </ListView>
+                    <Button Name="ResultButton" Grid.Row="1" Grid.Column="0" Width="75" Margin="0,5" HorizontalAlignment="Left" Content="See Info" Click="ResultButton_OnClick"/>
                     <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
                      <Hyperlink Name="NutritionixHyperlink" Click="NutritionixHyperlink_OnClick" Foreground="{x:Null}">
                       <Image Name="NutritionixImage" Source="Images/nutritionixIcon.bmp" MaxWidth="126.4" MaxHeight="29.6" />
