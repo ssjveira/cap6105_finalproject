@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NutritionixSamples.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="nutritionixAppId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">b01ec7f8</Value>
+    </Setting>
+    <Setting Name="nutritionixAppKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">f3ee823b1ad91a19fc0d226915ed2fa1</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
