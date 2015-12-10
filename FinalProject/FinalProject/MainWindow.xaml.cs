@@ -1,9 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using NutritionalInfoApp.Utils;
 using Nutritionix;
 
@@ -12,15 +21,28 @@ namespace NutritionalInfoApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+         public class Fea
+    {
+        public string s;
+        public List<double> x;
+    }
     public partial class MainWindow : Window
     {
         private readonly string m_InfoDataStr = "See info";
         private readonly string m_BackStr = "Back to results";
 
+        private static List<string> st = new List<string>();
+        private static List<double[]> db = new List<double[]>();
         public MainWindow()
         {
             InitializeComponent();
 
+            var train = RecognitionUtils.ReadFeatures();
+            for (int i = 0; i < train.Count; i++)
+            {
+                st.Add(train[i].s);
+                db.Add(train[i].x.ToArray());
+            }
             // Use bezier smoothing when rendering the ink strokes
             AppInkCanvas.DefaultDrawingAttributes.FitToCurve = true;
 
@@ -64,13 +86,13 @@ namespace NutritionalInfoApp
 
         private void AppInkCanvas_OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
-            InkConversionUtils.SaveStrokesToImageFile(AppInkCanvas.Strokes, 1111.0,
+            InkConversionUtils.SaveStrokesToImageFile(AppInkCanvas.Strokes, 256.0,
                 System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
-            var bitmap = InkConversionUtils.StrokesToBitmap(AppInkCanvas.Strokes, 1111.0);
+            var bitmap = InkConversionUtils.StrokesToBitmap(AppInkCanvas.Strokes, 256.0);
             var testFeatures = InkConversionUtils.featurizedBitmap(bitmap);
             InkConversionUtils.SaveFeatures(System.IO.Directory.GetCurrentDirectory() + @"\testFeature.xml", testFeatures);
-           // RecognitionUtils.ReadFeatures();
-              SearchText.Text = RecognitionUtils.searchResult(testFeatures);
+            
+            SearchText.Text = RecognitionUtils.searchResult(testFeatures, st, db);
         }
 
         private void ResultListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

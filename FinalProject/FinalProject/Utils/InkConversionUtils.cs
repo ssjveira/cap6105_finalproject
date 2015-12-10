@@ -247,13 +247,13 @@ namespace NutritionalInfoApp.Utils
         {
             List<double> imgDT1 = new List<double>();
             double ftr = 0;
-            for (int n = 0; n < 1111; n += 101)
+            for (int n = 0; n < 256; n += 8)
             {
-                for (int m = 0; m < 1111; m += 101)
+                for (int m = 0; m < 256; m += 8)
                 {
-                    for (int i = n; i < n + 101; i++)
+                    for (int i = n; i < n + 8; i++)
                     {
-                        for (int j = m; j < m + 101; j++)
+                        for (int j = m; j < m + 8; j++)
                         {
                             ftr += bitmap.GetPixel(i, j).R;
                         }

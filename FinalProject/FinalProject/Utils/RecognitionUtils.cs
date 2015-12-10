@@ -7,34 +7,33 @@ using System.Xml;
 
 namespace NutritionalInfoApp.Utils
 {
-    public class Fea
-    {
-        public string s;
-        public List<double> x;
-    }
+
 
     class RecognitionUtils
     {
-        private static string sPath = "D:\\food_samples\\samplesALL";
-        public static string searchResult(List<double> test)
+        private static string sPath = "D:\\food_samples\\samplesALL.xml";
+        public static string searchResult(List<double> test, List<string> st, List<double[]> db)
         {
             //MLApp.MLApp matlab = new MLApp.MLApp();
-            var train = ReadFeatures(); List<string> st = new List<string>(); List<double[]> db = new List<double[]>();
-            foreach (Fea f in train) {
-                st.Add(f.s);
-                db.Add(f.x.ToArray());
-            }
+             
+
+            
+            //int count = 0;
+            //foreach(var trainingData in train)
+            //{
+            //    Console.Write("Training #{0}: {1}, {2}\n", ++count, trainingData.s, trainingData.x);
+            //}
+            
+
             var testArr = test.ToArray();
             var lblArr = st.ToArray();
-            //var trainArr = db.ToArray();
             double distance = 0.0; List<double> disArr = new List<double>();
             for (int i = 0; i < lblArr.Length; i++)
             {
-              for (int j=0;j<121;j++){
-                  //distance = KNNs.ChebyshevDistance(testArr, db[i]);
-                  distance = Math.Abs(testArr[j] - db[i][j]);
-               
-            }
+                distance = KNNs.ManhattanDistance(testArr, db[i]);
+            //  for (int j=0;j<121;j++){                
+                 // distance += Math.Abs(testArr[j] - db[i][j]);               
+           // }
               disArr.Add(distance);
             }
             int indx = disArr.IndexOf(disArr.Min());
@@ -64,7 +63,7 @@ namespace NutritionalInfoApp.Utils
                         {
                             foodRow.Add(new Fea());
                             foodRow[j].s = foodName;
-                            for (int i = 0; i < 121; i++)
+                            for (int i = 0; i < 1024; i++)
                             {
                                 foodRowDT.Add(XmlConvert.ToDouble(reader.GetAttribute("F" + i)));
                                 //foodRow[0].x.Add(XmlConvert.ToDouble(reader.GetAttribute("F" + i)));
