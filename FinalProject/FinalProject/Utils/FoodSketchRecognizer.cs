@@ -45,6 +45,11 @@ namespace NutritionalInfoApp.Utils
             LoadFeatures();
         }
 
+        public IEnumerable<string> Recognize(IEnumerable<StrokeCollection> strokeCollectionList)
+        {
+            return strokeCollectionList.Select(Recognize).ToList();
+        }
+
         /// <summary>
         /// Overload that allows for recognizing a stroke that's in the form of a StrokeCollection.
         /// </summary>
@@ -53,15 +58,13 @@ namespace NutritionalInfoApp.Utils
         public string Recognize(StrokeCollection strokes)
         {
             // DEBUG - Save stroke as an image to a file
-            // TODO: Remove this eventually
-            InkConversionUtils.SaveStrokesToImageFile(strokes, KImageSideLength, System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
+            //InkConversionUtils.SaveStrokesToImageFile(strokes, KImageSideLength, System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
             
             // Convert strokes to a feature vector
             var testFeatures = InkConversionUtils.featurizedBitmap(InkConversionUtils.StrokesToBitmap(strokes, KImageSideLength));
             
-            // DEBUG- Save features as XML to a file
-            // TODO: Remove this eventually
-            InkConversionUtils.SaveFeatures(System.IO.Directory.GetCurrentDirectory() + @"\testFeature.xml", testFeatures);
+            // DEBUG - Save features as XML to a file
+            //InkConversionUtils.SaveFeatures(System.IO.Directory.GetCurrentDirectory() + @"\testFeature.xml", testFeatures);
 
             return Recognize(testFeatures);
         }

@@ -24,8 +24,8 @@ namespace NutritionalInfoApp
     public partial class MainWindow : Window
     {
         // String constants
-        private readonly string KInfoDataStr = "See info";
-        private readonly string KBackStr = "Back to results";
+        private const string KInfoDataStr = "See info";
+        private const string KBackStr = "Back to results";
 
         private readonly FoodSketchRecognizer m_FoodSketchRecognizer = new FoodSketchRecognizer();
 
@@ -87,9 +87,49 @@ namespace NutritionalInfoApp
             ResultListView.ItemsSource = searchResponse.Results;
         }
 
+        /*
         private void AppInkCanvas_OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
-            SearchText.Text = m_FoodSketchRecognizer.Recognize(AppInkCanvas.Strokes);
+            if (System.IO.Directory.GetFiles(System.IO.Directory.GetCurrentDirectory() + @"\tests\", "*.png").Length > 0)
+            {
+                foreach (string file in System.IO.Directory.EnumerateFiles(System.IO.Directory.GetCurrentDirectory() + @"\tests\", "*.png"))
+                    System.IO.File.Delete(file);
+            }
+            List<StrokeCollection> ReadyStrokes = RecognitionUtils.Parser(AppInkCanvas.Strokes);
+            SearchText.Text = ReadyStrokes.Count.ToString();
+            foreach (StrokeCollection strcol in ReadyStrokes)
+                InkConversionUtils.SaveStrokesToImageFile(strcol, 256.0, System.IO.Directory.GetCurrentDirectory() + @"\tests\" + DateTime.Now.ToLongDateString().ToString() + ".png");
+            //var bitmap = InkConversionUtils.StrokesToBitmap(AppInkCanvas.Strokes, 256.0);
+            // var testFeatures = InkConversionUtils.featurizedBitmap(bitmap);
+            //  InkConversionUtils.SaveFeatures(System.IO.Directory.GetCurrentDirectory() + @"\testFeature.xml", testFeatures);
+
+            //  SearchText.Text = RecognitionUtils.searchResult(testFeatures, st, db);
+        }
+        */
+
+        private void AppInkCanvas_OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
+        {
+            // DEBUG
+            /*
+            if (System.IO.Directory.GetFiles(@"\tests\", "*.png").Length > 0)
+            {
+                foreach (var file in System.IO.Directory.EnumerateFiles(@"\tests\", "*.png"))
+                    System.IO.File.Delete(file);
+            }
+            */
+
+            var parsedStrokes = RecognitionUtils.Parser(AppInkCanvas.Strokes);
+
+            // DEBUG
+            /*
+            foreach (var strokeCollection in parsedStrokes)
+                InkConversionUtils.SaveStrokesToImageFile(strokeCollection, 256.0, System.IO.Directory.GetCurrentDirectory() + @"\tests\" + DateTime.Now.ToLongDateString().ToString() + ".png");
+            */
+
+            // Print out text that will be used by NutritionixHelper to search for n objects and return the results
+            // (i.e. With query string = "apple+tomato", nutritional info for an apple and a tomato will be retrieved
+            // from the Nutritionix database.
+            SearchText.Text = string.Join("+", m_FoodSketchRecognizer.Recognize(parsedStrokes));
         }
 
         private void ResultListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
