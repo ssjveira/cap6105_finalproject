@@ -29,6 +29,8 @@ namespace NutritionalInfoApp
 
         private readonly FoodSketchRecognizer m_FoodSketchRecognizer = new FoodSketchRecognizer();
 
+        private bool m_IsNutritionixItemLoaded = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,6 +39,17 @@ namespace NutritionalInfoApp
             AppInkCanvas.DefaultDrawingAttributes.FitToCurve = true;
 
             ResultButton.Content = KInfoDataStr;
+        }
+
+        private void SetResultsView()
+        {
+            if (m_IsNutritionixItemLoaded || ResultListView.SelectedItem == null) return;
+
+            var searchResult = ResultListView.SelectedItem as SearchResult;
+            if(searchResult != null)
+                NutrionalDataGrid.ItemsSource = new List<Item>() { NutritionHelper.RetrieveItem(searchResult.Item.Id) };
+
+            m_IsNutritionixItemLoaded = true;
         }
 
         private void ClearButton_OnClick(object sender, RoutedEventArgs e)
@@ -81,24 +94,7 @@ namespace NutritionalInfoApp
 
         private void ResultListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var nutritionalInfo = new List<string>();
-
-            if (ResultListView.SelectedItem != null)
-            {
-                foreach (var item in e.AddedItems)
-                {
-                    var searchResult = item as SearchResult;
-
-                    if (searchResult != null)
-                    {
-                        var resultItem = NutritionHelper.RetrieveItem(searchResult.Item.Id);
-                        nutritionalInfo.Add("Calcium: " + (resultItem.NutritionFact_Calcium != null ? resultItem.NutritionFact_Calcium.ToString() : ""));
-                        nutritionalInfo.Add("Calories: " + (resultItem.NutritionFact_Calories != null ? resultItem.NutritionFact_Calories.ToString() : ""));
-                    }
-                }
-            }
-
-            NutrionalListView.ItemsSource = nutritionalInfo;
+            m_IsNutritionixItemLoaded = false;
         }
 
         private void ResultButton_OnClick(object sender, RoutedEventArgs e)
@@ -107,15 +103,19 @@ namespace NutritionalInfoApp
             {
                 ResultButton.Content = KBackStr;
 
+                SetResultsView();
+
                 ResultListView.Visibility = Visibility.Hidden;
-                NutrionalListView.Visibility = Visibility.Visible;
+                ResultsLabel.Visibility = Visibility.Hidden;
+                NutritionResultsViewer.Visibility = Visibility.Visible;
             }
             else
             {
                 ResultButton.Content = KInfoDataStr;
 
                 ResultListView.Visibility = Visibility.Visible;
-                NutrionalListView.Visibility = Visibility.Hidden;
+                ResultsLabel.Visibility = Visibility.Visible;
+                NutritionResultsViewer.Visibility = Visibility.Hidden;
             }
         }
     }
