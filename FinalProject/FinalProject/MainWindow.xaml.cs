@@ -21,32 +21,22 @@ namespace NutritionalInfoApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-         public class Fea
-    {
-        public string s;
-        public List<double> x;
-    }
     public partial class MainWindow : Window
     {
-        private readonly string m_InfoDataStr = "See info";
-        private readonly string m_BackStr = "Back to results";
+        // String constants
+        private readonly string KInfoDataStr = "See info";
+        private readonly string KBackStr = "Back to results";
 
-        private static List<string> st = new List<string>();
-        private static List<double[]> db = new List<double[]>();
+        private readonly FoodSketchRecognizer m_FoodSketchRecognizer = new FoodSketchRecognizer();
+
         public MainWindow()
         {
             InitializeComponent();
 
-            var train = RecognitionUtils.ReadFeatures();
-            for (int i = 0; i < train.Count; i++)
-            {
-                st.Add(train[i].s);
-                db.Add(train[i].x.ToArray());
-            }
             // Use bezier smoothing when rendering the ink strokes
             AppInkCanvas.DefaultDrawingAttributes.FitToCurve = true;
 
-            ResultButton.Content = m_InfoDataStr;
+            ResultButton.Content = KInfoDataStr;
         }
 
         private void ClearButton_OnClick(object sender, RoutedEventArgs e)
@@ -86,13 +76,7 @@ namespace NutritionalInfoApp
 
         private void AppInkCanvas_OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
-            InkConversionUtils.SaveStrokesToImageFile(AppInkCanvas.Strokes, 256.0,
-                System.IO.Directory.GetCurrentDirectory() + @"\userStroke.png");
-            var bitmap = InkConversionUtils.StrokesToBitmap(AppInkCanvas.Strokes, 256.0);
-            var testFeatures = InkConversionUtils.featurizedBitmap(bitmap);
-            InkConversionUtils.SaveFeatures(System.IO.Directory.GetCurrentDirectory() + @"\testFeature.xml", testFeatures);
-            
-            SearchText.Text = RecognitionUtils.searchResult(testFeatures, st, db);
+            SearchText.Text = m_FoodSketchRecognizer.Recognize(AppInkCanvas.Strokes);
         }
 
         private void ResultListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -119,16 +103,16 @@ namespace NutritionalInfoApp
 
         private void ResultButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (ResultButton.Content.Equals(m_InfoDataStr))
+            if (ResultButton.Content.Equals(KInfoDataStr))
             {
-                ResultButton.Content = m_BackStr;
+                ResultButton.Content = KBackStr;
 
                 ResultListView.Visibility = Visibility.Hidden;
                 NutrionalListView.Visibility = Visibility.Visible;
             }
             else
             {
-                ResultButton.Content = m_InfoDataStr;
+                ResultButton.Content = KInfoDataStr;
 
                 ResultListView.Visibility = Visibility.Visible;
                 NutrionalListView.Visibility = Visibility.Hidden;

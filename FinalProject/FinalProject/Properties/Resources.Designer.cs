@@ -59,5 +59,16 @@ namespace NutritionalInfoApp.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
+        ///&lt;Features&gt;
+        ///  &lt;apple F0=&quot;16305&quot; F1=&quot;16312&quot; F2=&quot;16312&quot; F3=&quot;16312&quot; F4=&quot;16312&quot; F5=&quot;16312&quot; F6=&quot;16312&quot; F7=&quot;16312&quot; F8=&quot;16312&quot; F9=&quot;16312&quot; F10=&quot;16312&quot; F11=&quot;16312&quot; F12=&quot;16312&quot; F13=&quot;16312&quot; F14=&quot;16312&quot; F15=&quot;16312&quot; F16=&quot;16312&quot; F17=&quot;16312&quot; F18=&quot;16312&quot; F19=&quot;16312&quot; F20=&quot;16312&quot; F21=&quot;16312&quot; F22=&quot;16312&quot; F23=&quot;16312&quot; F24=&quot;16312&quot; F25=&quot;16312&quot; F26=&quot;16312&quot; F27=&quot;16312&quot; F28=&quot;16312&quot; F29=&quot;16312&quot; F30=&quot;16312&quot; F31=&quot;16312&quot; F32=&quot;16312&quot; F33=&quot;16320&quot; F34=&quot;16320&quot; F35=&quot;16320&quot; F36=&quot;16320&quot;  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TrainingSamples {
+            get {
+                return ResourceManager.GetString("TrainingSamples", resourceCulture);
+            }
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace Food
             InitializeComponent();
         }
         //private string sPath = System.IO.Path.GetDirectoryName(Application.Current.ToString());
-        private string sPath = "D:\\food_samples\\";
+        private string sPath = "C:\\food_samples\\";
         //string currentDirName = System.IO.Directory.GetCurrentDirectory();
         
         
