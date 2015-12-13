@@ -94,11 +94,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utils\IGestureRecognizer.cs" />
     <Compile Include="Utils\InkConversionUtils.cs" />
+    <Compile Include="Utils\InkGestureRecognizer.cs" />
+    <Compile Include="Utils\InkHelper.cs" />
     <Compile Include="Utils\KNNs.cs" />
     <Compile Include="Utils\NutritionHelper.cs" />
     <Compile Include="Utils\FoodSketchRecognizer.cs" />
     <Compile Include="Utils\RecognitionUtils.cs" />
+    <Compile Include="Utils\RectExtension.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,17 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\nutritionixIcon.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="MLApp">
-      <Guid>{C36E46AB-6A81-457B-9F91-A7719A06287F}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\trainingSamples.xml" />

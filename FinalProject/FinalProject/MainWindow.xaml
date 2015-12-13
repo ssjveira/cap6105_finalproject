@@ -9,7 +9,7 @@
         </Grid.RowDefinitions>
         <DockPanel>
             <DockPanel DockPanel.Dock="Left" Margin="10">
-                <Label DockPanel.Dock="Top" Content="Please sketch below:" FontWeight="Bold"/>
+                <Label DockPanel.Dock="Top" Content="Please sketch below:" FontSize="15" FontWeight="Bold"/>
                 <Grid DockPanel.Dock="Bottom">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -20,7 +20,7 @@
                 </Grid>
             </DockPanel>
             <DockPanel DockPanel.Dock="Right" Margin="10">
-                <Label Name="ResultsLabel" DockPanel.Dock="Top" Content="Nutritional Info Results:" FontWeight="Bold"/>
+                <Label Name="ResultsLabel" DockPanel.Dock="Top" Content="Nutritional Info Results:" FontSize="15" FontWeight="Bold"/>
                 <Grid DockPanel.Dock="Bottom">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -36,14 +36,24 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <ScrollViewer Name="NutritionResultsViewer" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Visibility="Hidden">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Label Margin="5,5,5,5" FontWeight="Bold" FontSize="20">Nutrition Facts</Label>
-                            <DataGrid Grid.Row="1" Name="NutrionalDataGrid" IsReadOnly="True" Margin="5,5,5,5" AutoGenerateColumns="False" GridLinesVisibility="None" HeadersVisibility="Column" RowBackground="#FF7EC6D9" RowHeight="56" SelectionMode="Single">
+                        <StackPanel>
+                            <DataGrid Name="NutrionalDataGrid" IsReadOnly="True" Margin="5,5,5,5" AutoGenerateColumns="False" GridLinesVisibility="None" HeadersVisibility="None" SelectionMode="Single">
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="{x:Null}" />
+                                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.Resources>
                                 <DataGrid.Columns>
+                                    <DataGridTextColumn Header="NutritionFact" Binding="{Binding Item1}"/>
+                                    <DataGridTextColumn Header="Value" Binding="{Binding Item2}"/>
+                                </DataGrid.Columns>
+                                <!--<DataGrid.Columns>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                     <DataGridTextColumn Header="Calories" Binding="{Binding NutritionFact_Calories}"/>
                                     <DataGridTextColumn Header="Calories from Fat" Binding="{Binding NutritionFact_CaloriesFromFat}"/>
@@ -60,9 +70,9 @@
                                     <DataGridTextColumn Header="Vitamin C" Binding="{Binding NutritionFact_VitaminC}"/>
                                     <DataGridTextColumn Header="Calcium" Binding="{Binding NutritionFact_Calcium}"/>
                                     <DataGridTextColumn Header="Iron" Binding="{Binding NutritionFact_Iron}"/>
-                                </DataGrid.Columns>
+                                </DataGrid.Columns>-->
                             </DataGrid>
-                        </Grid>
+                        </StackPanel>
                     </ScrollViewer>
                     <Button Name="ResultButton" Grid.Row="1" Grid.Column="0" Width="75" Margin="0,5" HorizontalAlignment="Left" Content="See Info" Click="ResultButton_OnClick"/>
                     <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
