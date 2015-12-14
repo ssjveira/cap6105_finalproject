@@ -16,27 +16,16 @@ namespace NutritionalInfoApp.Utils
             // Note: The first StrokeCollection will consist of the first stroke
             var strokeCollectionList = new List<StrokeCollection> { new StrokeCollection { strokes[0].Clone() } };
 
-            var smallStrokes = new StrokeCollection();
-
             // Iterate through all of the strokes
             // Note: For each stroke, either add it to an existing StrokeCollection or create a new StrokeCollection
             for (var i = 1; i < strokes.Count(); ++i)
             {
-                // Collect the "small" stroke.  Could be a dot to an i or an accent mark?
-                var strokeBounds = strokes[i].GetBounds();
-                if (strokeBounds.Height < 5.0 && strokeBounds.Width < 5.0)
-                {
-                    smallStrokes.Add(strokes[i].Clone());
-                    continue;
-                }
-
                 var intersectingGroups = new List<StrokeCollection>();
 
                 foreach (var strokeCollection in strokeCollectionList)
                 {
                     if ((from stroke in strokeCollection let stylusShape = new EllipseStylusShape(5.0, 5.0, 0.0) where stroke.HitTest((Point[])strokes[i].StylusPoints, stylusShape) select stroke).Any())
                     {
-                        strokeCollection.Add(strokes[i].Clone());
                         intersectingGroups.Add(strokeCollection);
                     }
                 }
@@ -47,7 +36,7 @@ namespace NutritionalInfoApp.Utils
                     strokeCollectionList.Add(new StrokeCollection { strokes[i].Clone() });
                 else
                 {
-                    var combinedGroup = new StrokeCollection();
+                    var combinedGroup = new StrokeCollection { strokes[i].Clone() };
 
                     // Remove the intersecting groups from the stroke collection list
                     foreach (var intersectingGroup in intersectingGroups)
@@ -60,16 +49,20 @@ namespace NutritionalInfoApp.Utils
                 }
             }
 
-            // Add each small strokes to a group that is closest to it
+            // Take stroke collections with one stroke out of the main list of stroke collections
+            var singleStrokeCollectionList = strokeCollectionList.Where(strokeCollection => strokeCollection.Count() == 1).ToList();
+            strokeCollectionList.RemoveAll(strokeCollection => strokeCollection.Count() == 1);
+
+            // Add each single strokes to a group that is closest to it by a certain tolerance value
             // TODO: Maybe incorporate time into determination of which group a small stroke should be apart of?
-            foreach (var smallStroke in smallStrokes)
+            foreach (var singleStrokeCollection in singleStrokeCollectionList)
             {
                 var leastDistance = double.PositiveInfinity;
                 StrokeCollection closestGroup = null;
 
                 foreach (var strokeCollection in strokeCollectionList)
                 {
-                    var distance = ComputeDistance(strokeCollection.GetBounds().Center(), smallStroke.GetBounds().Center());
+                    var distance = ComputeDistance(strokeCollection.GetBounds().Center(), singleStrokeCollection.GetBounds().Center());
 
                     if (!(distance < leastDistance)) continue;
 
@@ -78,9 +71,13 @@ namespace NutritionalInfoApp.Utils
                 }
 
                 // Add the small stroke to the closest group
-                if (closestGroup != null)
+                if (closestGroup != null && Math.Abs(leastDistance) < 5.0)
                 {
-                    closestGroup.Add(smallStroke);
+                    closestGroup.Add(singleStrokeCollection);
+                }
+                else
+                {
+                    strokeCollectionList.Add(singleStrokeCollection);
                 }
             }
 
@@ -162,6 +159,41 @@ namespace NutritionalInfoApp.Utils
             }
 
             return distance;
+        }
+
+        /// <summary>
+        /// Computes of the angle of the line between the two endpoints of a stroke.
+        /// </summary>
+        /// <param name="stroke"></param>
+        /// <returns>Angle of the line between the stroke endpoints in radians.</returns>
+        public static double ComputeStrokeAngle(Stroke stroke)
+        {
+            var p1 = stroke.StylusPoints[0];
+            var p2 = stroke.StylusPoints[stroke.StylusPoints.Count - 1];
+
+            var xDiff = p2.X - p1.X; 
+            var yDiff = p2.Y - p1.Y; 
+            
+            return Math.Atan2(yDiff, xDiff);
+        }
+
+        /// <summary>
+        /// Computes the angle between two strokes
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>Angle between the strokes in radians.</returns>
+        public static double ComputeAngleBetweenStrokes(Stroke a, Stroke b)
+        {
+            var a1 = a.StylusPoints[0];
+            var a2 = a.StylusPoints[a.StylusPoints.Count - 1];
+            var b1 = b.StylusPoints[0];
+            var b2 = b.StylusPoints[b.StylusPoints.Count - 1];
+
+            var vecA = new Vector(a2.X - a1.X, a2.Y - a1.Y);
+            var vecB = new Vector(b2.X - b1.X, b2.Y - b1.Y);
+
+            return Math.Acos((vecA*vecB)/(vecA.Length*vecB.Length));
         }
         #endregion
     }

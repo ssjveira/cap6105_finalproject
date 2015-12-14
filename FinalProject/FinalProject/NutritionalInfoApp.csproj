@@ -101,8 +101,8 @@
     <Compile Include="Utils\KNNs.cs" />
     <Compile Include="Utils\NutritionHelper.cs" />
     <Compile Include="Utils\FoodSketchRecognizer.cs" />
-    <Compile Include="Utils\RecognitionUtils.cs" />
     <Compile Include="Utils\RectExtension.cs" />
+    <Compile Include="Utils\SketchComparer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

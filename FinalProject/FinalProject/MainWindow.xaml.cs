@@ -146,27 +146,12 @@ namespace NutritionalInfoApp
             }
             else
             {
-                // DEBUG
-                /*
-                if (System.IO.Directory.GetFiles(@"\tests\", "*.png").Length > 0)
-                {
-                    foreach (var file in System.IO.Directory.EnumerateFiles(@"\tests\", "*.png"))
-                        System.IO.File.Delete(file);
-                }
-                */
-
-                var parsedStrokes = RecognitionUtils.Parser(AppInkCanvas.Strokes);
-
-                // DEBUG
-                /*
-                foreach (var strokeCollection in parsedStrokes)
-                    InkConversionUtils.SaveStrokesToImageFile(strokeCollection, 256.0, System.IO.Directory.GetCurrentDirectory() + @"\tests\" + DateTime.Now.ToLongDateString().ToString() + ".png");
-                */
+                m_FoodSketchRecognizer.SetStrokes(AppInkCanvas.Strokes);
 
                 // Print out text that will be used by NutritionixHelper to search for n objects and return the results
                 // (i.e. With query string = "apple+tomato", nutritional info for an apple and a tomato will be retrieved
                 // from the Nutritionix database.
-                SearchText.Text = string.Join("+", m_FoodSketchRecognizer.Recognize(parsedStrokes));
+                SearchText.Text = string.Join("+", m_FoodSketchRecognizer.Recognize());
             }
 
         }
