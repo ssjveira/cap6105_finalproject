@@ -30,14 +30,32 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid Name="ResultListView" AutoGenerateColumns="False" Grid.ColumnSpan="2" IsReadOnly="True" SelectionChanged="ResultListView_OnSelectionChanged" SelectionMode="Single" GridLinesVisibility="None" HeadersVisibility="None" RowBackground="#FF7EC6D9" RowHeight="56">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Item.Name}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ScrollViewer Name="SearchResultsViewer" Grid.ColumnSpan="2">
+                        <StackPanel Name="SearchResultPanel">
+                            <Label Name="ResultLabel1" Visibility="Hidden">Result 1</Label>
+                            <DataGrid Name="ResultListView1" Visibility="Hidden" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="ResultListView_OnSelectionChanged" SelectionMode="Single" GridLinesVisibility="None" HeadersVisibility="None" RowBackground="#FF7EC6D9" RowHeight="56" Margin="0,5,0,10" Height="150">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Item.Name}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Label Name="ResultLabel2" Visibility="Hidden">Result 2</Label>
+                            <DataGrid Name="ResultListView2" Visibility="Hidden" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="ResultListView_OnSelectionChanged" SelectionMode="Single" GridLinesVisibility="None" HeadersVisibility="None" RowBackground="#FF7EC6D9" RowHeight="56" Margin="0,5,0,10" Height="150">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Item.Name}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Label Name="ResultLabel3" Visibility="Hidden">Result 3</Label>
+                            <DataGrid Name="ResultListView3" Visibility="Hidden" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="ResultListView_OnSelectionChanged" SelectionMode="Single" GridLinesVisibility="None" HeadersVisibility="None" RowBackground="#FF7EC6D9" RowHeight="56" Margin="0,5,0,10" Height="150">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Item.Name}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </ScrollViewer>
                     <ScrollViewer Name="NutritionResultsViewer" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Visibility="Hidden">
-                        <StackPanel>
-                            <DataGrid Name="NutrionalDataGrid" IsReadOnly="True" Margin="5,5,5,5" AutoGenerateColumns="False" GridLinesVisibility="None" HeadersVisibility="None" SelectionMode="Single">
+                        <StackPanel Name="NutritionResultsPanel">
+                            <Label Name="NutritionResultLabel">Results for (Insert name)</Label>
+                            <DataGrid Name="NutritionalDataGrid" IsReadOnly="True" Margin="5,5,5,5" AutoGenerateColumns="False" GridLinesVisibility="None" HeadersVisibility="Column" SelectionMode="Single">
                                 <DataGrid.Resources>
                                     <Style TargetType="{x:Type DataGridCell}">
                                         <Setter Property="Foreground" Value="Black" />
@@ -49,10 +67,10 @@
                                         </Style.Triggers>
                                     </Style>
                                 </DataGrid.Resources>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="NutritionFact" Binding="{Binding Item1}"/>
+                                <!--<DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Item1}"/>
                                     <DataGridTextColumn Header="Value" Binding="{Binding Item2}"/>
-                                </DataGrid.Columns>
+                                </DataGrid.Columns>-->
                                 <!--<DataGrid.Columns>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                     <DataGridTextColumn Header="Calories" Binding="{Binding NutritionFact_Calories}"/>
@@ -84,9 +102,8 @@
             </DockPanel>
         </DockPanel>
         <StackPanel Grid.Row="1">
-            <Label Content="Nutritionix Debug Search" Margin="10,10,10,0"/>
-            <TextBox Name="SearchText" DockPanel.Dock="Bottom" Margin="10,0,10,1"/>
-            <Button Name="SearchButton" Content="Search" Width="75" Margin="10,1,10,10" HorizontalAlignment="Left" Click="SearchButton_OnClick"/>
+            <Label Content="Nutritionix Query" Margin="10,10,10,0"/>
+            <TextBox Name="SearchText" DockPanel.Dock="Bottom" Margin="10,0,10,1" TextChanged="SearchText_OnTextChanged" IsEnabled="False"/>
         </StackPanel>
     </Grid>
 </Window>
